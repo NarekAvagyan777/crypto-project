@@ -1,6 +1,12 @@
+import { FC } from "react"
 import { Link } from "react-router-dom"
+import { TTrendingCrypto } from "../../types/types"
 
-export default function CoinTrending({ coin }) {
+type TProps = {
+  coin: TTrendingCrypto
+}
+
+const CoinTrending: FC<TProps> = ({ coin }) => {
 
   return (
     <Link to={`coin/${coin.id}`}>
@@ -15,3 +21,5 @@ export default function CoinTrending({ coin }) {
     </Link>
   )
 }
+
+export default CoinTrending;

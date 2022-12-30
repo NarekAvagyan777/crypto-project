@@ -1,8 +1,16 @@
+import { FC } from 'react';
 import { Link } from "react-router-dom";
 import { TrendingDown, TrendingUp } from "../../icons/icons";
 import { currencyFormat } from "../../utils/utils";
+import { TMarket } from '../../types/types';
 
-export default function Coin({ coin }) {
+
+
+type TProps = {
+  coin: TMarket
+}
+
+const Coin: FC<TProps> = ({ coin }) => {
 
   return (
     <Link to={`/coin/${coin.id}`}>
@@ -13,11 +21,13 @@ export default function Coin({ coin }) {
           <p>{coin.name}</p>
           <span className="text-xs">({coin.symbol})</span>
         </div>
+
         <span className="flex justify-center items-center">{currencyFormat(coin.current_price)}</span>
         <span className={`flex items-center gap-1 ${coin.price_change_percentage_24h < 0 ? 'text-red-400' : 'text-green-400'}`}>
             {coin.price_change_percentage_24h < 0 ? <TrendingDown /> : <TrendingUp />}
             {coin.price_change_percentage_24h}
         </span>
+        
         <div className="hidden sm:block">
             <p className="font-semibold">Market Cap</p>
             <span>{currencyFormat(coin.market_cap)}</span>
@@ -26,3 +36,7 @@ export default function Coin({ coin }) {
     </Link>
   )
 }
+
+
+
+export default Coin;
