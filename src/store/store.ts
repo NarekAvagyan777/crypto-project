@@ -10,4 +10,7 @@ export const store = configureStore({
 
 // @ts-ignore
 window.state = store
-export type TAppState = ReturnType<typeof store.getState>
+
+
+export type TRootState = ReturnType<typeof store.getState>
+export type TAppDispatch = typeof store.dispatch

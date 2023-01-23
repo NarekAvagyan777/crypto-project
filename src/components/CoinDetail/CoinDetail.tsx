@@ -1,33 +1,18 @@
-import { useEffect, FC } from "react";
-import { Dispatch } from "@reduxjs/toolkit";
-import { connect, ConnectedProps } from "react-redux";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { TAppState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/hook";
 import { getDataByCoinId } from "../../store/slices/cryptoSlice";
 
 
-const mapStateToProps = (state: TAppState) => ({
-  cryptoData: state.crypto.cryptoData
-})
-
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  getDataByCoinId: (id: string | undefined) => dispatch(getDataByCoinId(id))
-})
-
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-
-const CoinDetail: FC<PropsFromRedux> = ({ cryptoData, getDataByCoinId }) => {
+const CoinDetail = () => {
+  const dispatch = useAppDispatch()
+  const cryptoData = useAppSelector(store => store.crypto.cryptoData)
 
   const { id } = useParams()
 
   useEffect(() => {
-    
-    getDataByCoinId(id)
+
+    dispatch(getDataByCoinId(id))
   }, [getDataByCoinId, id])
 
   if(!cryptoData) {
@@ -47,5 +32,4 @@ const CoinDetail: FC<PropsFromRedux> = ({ cryptoData, getDataByCoinId }) => {
   )
 }
 
-
-export default connector(CoinDetail)
+export default CoinDetail;

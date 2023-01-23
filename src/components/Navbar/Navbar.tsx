@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { LogoIcon } from '../../icons/icons';
 
-export default function Navbar() {
+
+const Navbar = () => {
   const navigate = useNavigate()
 
   return (
@@ -17,3 +18,6 @@ export default function Navbar() {
     </div>
   )
 }
+
+
+export default Navbar;

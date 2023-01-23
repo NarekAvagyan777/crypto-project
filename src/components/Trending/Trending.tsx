@@ -1,27 +1,17 @@
-import { useEffect, FC } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { TAppState } from '../../store/store';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { setTrending } from '../../store/slices/cryptoSlice';
 import CoinTrending from './CoinTrending';
 
 
-const mapStateToProps = (state: TAppState) => ({
-  trendingCryptos: state.crypto.trendingCryptos
-})
+const Trending = () => {
 
-const mapDispatchToProps = (dispatch) => ({
-  setTrending: () => dispatch(setTrending())
-})
+  const dispatch = useAppDispatch()
+  const trendingCryptos = useAppSelector(store => store.crypto.trendingCryptos)
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-
-const Trending: FC<PropsFromRedux> = ({ trendingCryptos, setTrending }) => {
   useEffect(() => {
-    
-    setTrending()
+
+    dispatch(setTrending())
   }, [setTrending])
 
   return (
@@ -33,4 +23,4 @@ const Trending: FC<PropsFromRedux> = ({ trendingCryptos, setTrending }) => {
 }
 
 
-export default connector(Trending)
+export default Trending;

@@ -1,30 +1,18 @@
-import { useEffect, FC } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { TAppState } from "../../store/store";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/hook";
 import { setMarkets } from "../../store/slices/cryptoSlice";
 import Coin from "./Coin";
 
 
-const mapStateToProps = (state: TAppState) => {
-  return {
-    markets: state.crypto.markets,
-  }
-}
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarkets: () => dispatch(setMarkets())
-})
+const Markets = () => {
 
+  const dispatch = useAppDispatch()
+  const markets = useAppSelector(store => store.crypto.markets)
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-
-const Markets: FC<PropsFromRedux> = ({markets, setMarkets}) => {
   useEffect(() => {
 
-    setMarkets()
+    dispatch(setMarkets())
   }, [setMarkets])
 
   return (
@@ -36,4 +24,4 @@ const Markets: FC<PropsFromRedux> = ({markets, setMarkets}) => {
 }
 
 
-export default connector(Markets)
+export default Markets;

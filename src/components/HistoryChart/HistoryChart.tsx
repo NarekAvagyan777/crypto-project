@@ -1,7 +1,6 @@
-import { useEffect, FC } from "react";
-import { connect, ConnectedProps } from "react-redux";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { TAppState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/hook";
 import { getMarketChartData } from "../../store/slices/cryptoSlice";
 import {
   Chart as ChartJS,
@@ -30,27 +29,15 @@ ChartJS.register(
 
 
 
-const mapStateToProps = (state: TAppState) => ({
-  marketChart: state.crypto.marketChart,
-})
+const HistoryChart = () => {
 
-const mapDispatchToProps = (dispatch) => ({
-  getMarketChartData: (id: string | undefined) => dispatch(getMarketChartData(id))
-})
-
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-
-const HistoryChart: FC<PropsFromRedux> = ({ marketChart, getMarketChartData }) => {
-
+  const dispatch = useAppDispatch()
+  const marketChart = useAppSelector(store => store.crypto.marketChart)
   const { id } = useParams()
 
   useEffect(() => {
     
-    getMarketChartData(id)
+    dispatch(getMarketChartData(id))
   }, [getMarketChartData, id])
 
   const coinChartData = marketChart?.map(value => ({ x: value[0], y: value[1].toFixed(2) }))
@@ -80,5 +67,4 @@ const HistoryChart: FC<PropsFromRedux> = ({ marketChart, getMarketChartData }) =
   )
 }
 
-
-export default connector(HistoryChart)
+export default HistoryChart;
